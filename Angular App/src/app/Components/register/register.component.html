@@ -1,0 +1,39 @@
+<div class="registration-container">
+    <mat-card class="registration-card">
+      <mat-card-header>
+        <mat-card-title>Register</mat-card-title>
+      </mat-card-header>
+  
+      <mat-card-content>
+        <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+            <mat-form-field class="full-width">
+                <input matInput placeholder="Name" [(ngModel)]="user.firstName" name="name" required>
+              </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input matInput [matDatepicker]="picker" placeholder="Date of Birth" [(ngModel)]="user.dob" name="dob" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Email" name="email" [(ngModel)]="user.email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
+              <mat-error *ngIf="userForm.controls['email'].hasError('required')">Email is required.</mat-error>
+              <mat-error *ngIf="userForm.controls['email'].hasError('pattern')">Email must be in a valid format.</mat-error>
+            </mat-form-field>
+          
+            <mat-form-field class="full-width">
+              <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="user.password" required minlength="8" pattern="^(?=.*[A-Z])(?=.*[@#$%^&+=]).*">
+              <mat-error *ngIf="userForm.controls['password'].hasError('required')">Password is required.</mat-error>
+              <mat-error *ngIf="userForm.controls['password'].hasError('minlength')">Password must be at least 8 characters.</mat-error>
+              <mat-error *ngIf="userForm.controls['password'].hasError('pattern')">Password must have one uppercase letter and one special character.</mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <input matInput type="password" placeholder="Confirm Password" name="confirmPassword" [(ngModel)]="user.confirmPassword" required>
+              <mat-error *ngIf="user.password !== user.confirmPassword && user.confirmPassword !== ''">Passwords do not match</mat-error>
+            </mat-form-field>
+            <button mat-raised-button color="primary" class="login-button" [disabled]="!userForm.form.valid || user.password !== user.confirmPassword">Register</button>
+          </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
